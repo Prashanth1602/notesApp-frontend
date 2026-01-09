@@ -1,9 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, AuthContext } from "./context/AuthContext";
 import NoteCreation from "./components/noteCreation";
 import NoteList from "./components/NoteList";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Navbar from "./components/Navbar";
+import UserProfile from "./components/UserProfile";
 import { getNotes, createNote, deleteNote, updateNote, archiveNote, unarchiveNote } from "./services/api";
 
-function App() {
+function PrivateRoute({ children }) {
+    const { user, loading } = useContext(AuthContext);
+
+    if (loading) return <div>Loading...</div>;
+
+    return user ? children : <Navigate to="/login" />;
+}
+
+function Home() {
     const [notes, setNotes] = useState([]);
 
     useEffect(() => {
@@ -49,7 +63,7 @@ function App() {
 
     return (
         <div className="app-container">
-            <h1 className="app-title">smiriti - A second memory</h1>
+            <h1 className="app-title">smriti</h1>
             <NoteCreation onNoteCreated={handleCreateNote} />
             <hr className="separator" />
             <NoteList
@@ -59,6 +73,30 @@ function App() {
                 onToggleArchive={handleToggleArchive}
             />
         </div>
+    );
+}
+
+function App() {
+    return (
+        <AuthProvider>
+            <Router>
+                <Navbar />
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/" element={
+                        <PrivateRoute>
+                            <Home />
+                        </PrivateRoute>
+                    } />
+                    <Route path="/profile" element={
+                        <PrivateRoute>
+                            <UserProfile />
+                        </PrivateRoute>
+                    } />
+                </Routes>
+            </Router>
+        </AuthProvider>
     );
 }
 
