@@ -48,10 +48,10 @@ function App() {
     };
 
     return (
-        <div>
-            <h1>Notes App</h1>
+        <div className="app-container">
+            <h1 className="app-title">Notes App</h1>
             <NoteCreation onNoteCreated={handleCreateNote} />
-            <hr />
+            <hr className="separator" />
             <NoteList
                 notes={notes}
                 onDelete={handleDeleteNote}

@@ -6,7 +6,7 @@ function NoteList({ notes, onDelete, onUpdate, onToggleArchive }) {
     }
 
     return (
-        <div>
+        <div className="note-list">
             {notes.map(note => (
                 <Note
                     key={note.id}

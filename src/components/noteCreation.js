@@ -16,30 +16,31 @@ function NoteCreation({ onNoteCreated }) {
     };
 
     return (
-        <div>
-            <h2>Create Note</h2>
+        <div className="note-creation">
+            <h2 className="section-title">Create Note</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="title">Title</label>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="title">Title</label>
                     <input
                         type="text"
                         id="title"
+                        className="form-input"
                         placeholder="Enter your title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="note">Note</label>
-                    <input
-                        type="text"
+                <div className="form-group">
+                    <label className="form-label" htmlFor="note">Note</label>
+                    <textarea
                         id="note"
+                        className="form-textarea"
                         placeholder="Enter your note"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
                 </div>
-                <button type="submit">Add Note</button>
+                <button type="submit" className="btn btn-primary">Add Note</button>
             </form>
         </div>
     );
