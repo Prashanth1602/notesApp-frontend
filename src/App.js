@@ -49,7 +49,7 @@ function App() {
 
     return (
         <div className="app-container">
-            <h1 className="app-title">Notes App</h1>
+            <h1 className="app-title">smiriti - A second memory</h1>
             <NoteCreation onNoteCreated={handleCreateNote} />
             <hr className="separator" />
             <NoteList
