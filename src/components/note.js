@@ -11,44 +11,47 @@ function Note({ note, onDelete, onUpdate, onToggleArchive }) {
     };
 
     return (
-        <div className="note-card">
-            {isEditing ? (
-                <div>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <br />
-                    <textarea
-                        className="form-textarea"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        style={{ marginTop: '0.5rem' }}
-                    />
-                    <div className="note-edit-actions">
-                        <button className="btn btn-primary" onClick={handleUpdate}>Save</button>
-                        <button className="btn btn-secondary" onClick={() => setIsEditing(false)}>Cancel</button>
+        <>
+            <div className="note-card note-detail-view">
+                <div className="note-header">
+                    <h2 className="note-title">{note.title}</h2>
+                    {note.is_archived && <span className="archived-badge">Archived</span>}
+                </div>
+                <p className="note-content">{note.content}</p>
+                <div className="note-actions">
+                    <button className="btn btn-primary" onClick={() => setIsEditing(true)}>Edit</button>
+                    <button className="btn btn-danger" onClick={() => onDelete(note.id)}>Delete</button>
+                    <button className="btn btn-outline" onClick={() => onToggleArchive(note.id, note.is_archived)}>
+                        {note.is_archived ? "Unarchive" : "Archive"}
+                    </button>
+                </div>
+            </div>
+
+            {isEditing && (
+                <div className="modal-overlay" onClick={() => setIsEditing(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <h2 style={{ color: 'var(--primary-color)', marginBottom: '1rem', fontFamily: 'var(--font-display)' }}>Edit Memory</h2>
+                        <input
+                            type="text"
+                            className="form-input"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Title..."
+                        />
+                        <textarea
+                            className="form-textarea"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="What would you like to edit?"
+                        />
+                        <div className="modal-actions">
+                            <button className="btn btn-secondary" onClick={() => setIsEditing(false)}>Cancel</button>
+                            <button className="btn btn-primary" onClick={handleUpdate}>Save Changes</button>
+                        </div>
                     </div>
                 </div>
-            ) : (
-                <>
-                    <div className="note-header">
-                        <h3 className="note-title">{note.title}</h3>
-                        {note.is_archived && <span className="archived-badge">Archived</span>}
-                    </div>
-                    <p className="note-content">{note.content}</p>
-                    <div className="note-actions">
-                        <button className="btn btn-primary" onClick={() => setIsEditing(true)}>Edit</button>
-                        <button className="btn btn-danger" onClick={() => onDelete(note.id)}>Delete</button>
-                        <button className="btn btn-outline" onClick={() => onToggleArchive(note.id, note.is_archived)}>
-                            {note.is_archived ? "Unarchive" : "Archive"}
-                        </button>
-                    </div>
-                </>
             )}
-        </div>
+        </>
     );
 }
 

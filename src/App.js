@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import NoteCreation from "./components/noteCreation";
-import NoteList from "./components/NoteList";
+import Sidebar from "./components/Sidebar";
+import Note from "./components/note"; // Directly import Note component
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";
@@ -19,35 +20,34 @@ function PrivateRoute({ children }) {
 
 function Home() {
     const [notes, setNotes] = useState([]);
+    const [selectedNote, setSelectedNote] = useState(null);
 
     useEffect(() => {
-        fetchNotes();
-    }, []);
-
-    const fetchNotes = () => {
         getNotes().then(data => {
-            if (data) setNotes(data);
-        });
-    };
-
-    const handleCreateNote = (note) => {
-        return createNote(note).then(newNote => {
-            if (newNote) {
-                setNotes([...notes, newNote]);
+            if (data) {
+                setNotes(data);
             }
         });
-    };
+    }, []);
 
     const handleDeleteNote = (id) => {
         deleteNote(id).then(() => {
-            setNotes(notes.filter(n => n.id !== id));
+            const updatedNotes = notes.filter(n => n.id !== id);
+            setNotes(updatedNotes);
+            if (selectedNote && selectedNote.id === id) {
+                setSelectedNote(null);
+            }
         });
     };
 
     const handleUpdateNote = (id, updatedNote) => {
         updateNote(id, updatedNote).then(data => {
             if (data) {
-                setNotes(notes.map(n => (n.id === id ? data : n)));
+                const updatedList = notes.map(n => (n.id === id ? data : n));
+                setNotes(updatedList);
+                if (selectedNote && selectedNote.id === id) {
+                    setSelectedNote(data);
+                }
             }
         });
     };
@@ -56,22 +56,62 @@ function Home() {
         const action = isArchived ? unarchiveNote : archiveNote;
         action(id).then(data => {
             if (data) {
-                setNotes(notes.map(n => (n.id === id ? data : n)));
+                const updatedList = notes.map(n => (n.id === id ? data : n));
+                setNotes(updatedList);
+                if (selectedNote && selectedNote.id === id) {
+                    setSelectedNote(data);
+                }
             }
         });
     };
 
     return (
         <div className="app-container">
-            <h1 className="app-title">smriti</h1>
-            <NoteCreation onNoteCreated={handleCreateNote} />
-            <hr className="separator" />
-            <NoteList
-                notes={notes}
-                onDelete={handleDeleteNote}
-                onUpdate={handleUpdateNote}
-                onToggleArchive={handleToggleArchive}
-            />
+            <h1 className="app-title">Smriti</h1>
+            <p className="app-subtitle">The Digital Essence of Memory</p>
+
+            <div className="app-layout">
+                <Sidebar
+                    notes={notes}
+                    onSelectNote={setSelectedNote}
+                    selectedNoteId={selectedNote ? selectedNote.id : null}
+                />
+
+                <div className="note-view-container">
+                    {selectedNote ? (
+                        <Note
+                            key={selectedNote.id}
+                            note={selectedNote}
+                            onDelete={handleDeleteNote}
+                            onUpdate={handleUpdateNote}
+                            onToggleArchive={handleToggleArchive}
+                        />
+                    ) : (
+                        <div className="empty-selection-state">
+                            <div className="empty-selection-icon">🦋</div>
+                            <h2>Select a memory to recall</h2>
+                            <p>Or record a new one from the navigation bar.</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function CreateNoteWrapper() {
+    const navigate = useNavigate();
+
+    const handleCreate = async (note) => {
+        const newNote = await createNote(note);
+        if (newNote) {
+            navigate("/");
+        }
+    };
+
+    return (
+        <div className="app-container">
+            <NoteCreation onNoteCreated={handleCreate} />
         </div>
     );
 }
@@ -87,6 +127,11 @@ function App() {
                     <Route path="/" element={
                         <PrivateRoute>
                             <Home />
+                        </PrivateRoute>
+                    } />
+                    <Route path="/create" element={
+                        <PrivateRoute>
+                            <CreateNoteWrapper />
                         </PrivateRoute>
                     } />
                     <Route path="/profile" element={

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function NoteCreation({ onNoteCreated }) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,30 +19,33 @@ function NoteCreation({ onNoteCreated }) {
 
     return (
         <div className="note-creation">
-            <h2 className="section-title">Create Note</h2>
+            <h2 className="section-title">Record a Memory</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label className="form-label" htmlFor="title">Title</label>
                     <input
                         type="text"
                         id="title"
                         className="form-input"
-                        placeholder="Enter your title"
+                        placeholder="Memory Title..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="form-group">
-                    <label className="form-label" htmlFor="note">Note</label>
                     <textarea
                         id="note"
                         className="form-textarea"
-                        placeholder="Enter your note"
+                        placeholder="What are you remembering distinctively?"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">Add Note</button>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                    <button type="button" className="btn btn-secondary" onClick={() => navigate('/')} style={{ flex: 1 }}>Cancel</button>
+                    <button type="submit" className="btn btn-primary" style={{ flex: 2 }}>Store Memory</button>
+                </div>
             </form>
         </div>
     );

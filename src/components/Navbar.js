@@ -14,13 +14,14 @@ function Navbar() {
     return (
         <nav className="navbar">
             <div className="nav-container">
-                <Link to="/" className="nav-logo">smriti</Link>
+                <Link to="/" className="nav-logo">Smriti</Link>
                 <div className="nav-links">
                     {user ? (
                         <>
                             <span style={{ marginRight: '1rem', color: 'var(--text-secondary)' }}>
                                 Welcome, <Link to="/profile" style={{ fontWeight: 'bold', color: 'var(--text-primary)', textDecoration: 'none' }}>{user.username}</Link>
                             </span>
+                            <Link to="/create" className="btn btn-primary" style={{ marginRight: '1rem' }}>Record Memory</Link>
                             <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
                         </>
                     ) : (

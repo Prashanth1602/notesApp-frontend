@@ -1,34 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
 
 :root {
-  /* Color Palette */
-  --primary-color: #6366f1; /* Indigo 500 */
-  --primary-hover: #4f46e5; /* Indigo 600 */
-  --secondary-color: #64748b; /* Slate 500 */
-  --secondary-hover: #475569; /* Slate 600 */
-  --danger-color: #ef4444; /* Red 500 */
-  --danger-hover: #dc2626; /* Red 600 */
-  --success-color: #22c55e; /* Green 500 */
-  --background-bg: #f8fafc; /* Slate 50 */
-  --card-bg: #ffffff;
-  --text-primary: #1e293b; /* Slate 800 */
-  --text-secondary: #64748b; /* Slate 500 */
-  --border-color: #e2e8f0; /* Slate 200 */
+  /* Smriti Color Palette - "Technical Culturalism" */
+  /* Indian-Rooted Accents */
+  --primary-color: #F59E0B;
+  /* Marigold (Genda) - Memory/Vibrancy */
+  --primary-hover: #D97706;
 
-  /* Spacing */
+  --spiritual-accent: #EC4899;
+  /* Lotus Pink - Creativity */
+  --calm-accent: #6366F1;
+  /* Indigo - Depth */
+
+  /* Deep Dark Mode Backgrounds */
+  --background-bg: #0F172A;
+  /* Deep Slate (Night Sky) */
+  --background-pattern: #1E293B;
+
+  --card-bg: rgba(30, 41, 59, 0.7);
+  /* Glassy Slate 800 */
+  --card-border: rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --text-primary: #F1F5F9;
+  /* Slate 100 */
+  --text-secondary: #94A3B8;
+  /* Slate 400 */
+  --text-muted: #64748B;
+
+  --danger-color: #F43F5E;
+  /* Rose */
+  --success-color: #10B981;
+  /* Emerald */
+
+  /* Spacing & Radius */
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  --spacing-xl: 2.5rem;
 
-  /* Radius */
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Elevate Shadows */
+  --glow-primary: 0 0 20px rgba(245, 158, 11, 0.15);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+
+  --font-main: 'Outfit', sans-serif;
+  --font-display: 'Outfit', sans-serif;
 }
 
 * {
@@ -38,50 +58,97 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-main);
   background-color: var(--background-bg);
   color: var(--text-primary);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 20%);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 /* App Layout */
 .app-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--spacing-xl) var(--spacing-md);
 }
 
 .app-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-family: var(--font-display);
+  font-size: 3.5rem;
   font-weight: 700;
-  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--spiritual-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.app-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
   margin-bottom: var(--spacing-xl);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
 .separator {
   border: 0;
   height: 1px;
-  background: var(--border-color);
+  background: linear-gradient(90deg, transparent, var(--card-border), transparent);
   margin: var(--spacing-xl) 0;
 }
 
-/* Note Creation Form */
+/* Note Creation - "The Thought Stream" */
 .note-creation {
   background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-card);
   margin-bottom: var(--spacing-xl);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--card-border);
+  position: relative;
+  overflow: hidden;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.note-creation:focus-within {
+  box-shadow: var(--glow-primary);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 
 .section-title {
-  font-size: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: var(--spacing-lg);
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 1.25em;
+  background: var(--primary-color);
+  border-radius: 2px;
 }
 
 .form-group {
@@ -93,36 +160,55 @@ body {
   font-weight: 500;
   margin-bottom: var(--spacing-sm);
   color: var(--text-secondary);
+  font-size: 0.875rem;
 }
 
 .form-input,
 .form-textarea {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius-md);
   font-family: inherit;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background: rgba(15, 23, 42, 0.8);
 }
 
 .form-textarea {
-  min-height: 100px;
+  min-height: 120px;
   resize: vertical;
 }
 
-/* Note List */
+/* Note List - Masonry Layout */
 .note-list {
-  display: grid;
-  gap: var(--spacing-lg);
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  column-count: 3;
+  column-gap: var(--spacing-lg);
+}
+
+@media (max-width: 900px) {
+  .note-list {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .note-list {
+    column-count: 1;
+  }
 }
 
 .empty-message {
@@ -130,24 +216,47 @@ body {
   color: var(--text-secondary);
   font-size: 1.1rem;
   padding: var(--spacing-xl);
+  font-style: italic;
+  opacity: 0.7;
 }
 
-/* Note Card */
+/* Note Card - "Stored Memories" */
 .note-card {
   background: var(--card-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-md);
   padding: var(--spacing-lg);
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  border: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-lg);
+  /* For masonry gap */
+  border: 1px solid var(--card-border);
+  break-inside: avoid;
+  /* Prevent split across columns */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .note-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Subtle top gradient line for cards */
+.note-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), var(--spiritual-accent));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.note-card:hover::after {
+  opacity: 1;
 }
 
 .note-header {
@@ -162,101 +271,128 @@ body {
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
+  line-height: 1.3;
 }
 
 .archived-badge {
-  background-color: var(--secondary-color);
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  background-color: rgba(99, 102, 241, 0.1);
+  color: var(--calm-accent);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 9999px;
-  font-weight: 500;
+  font-weight: 600;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .note-content {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
-  flex-grow: 1;
-  white-space: pre-wrap; /* Preserve line breaks */
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  line-height: 1.7;
 }
 
 .note-actions {
   display: flex;
   gap: var(--spacing-sm);
   margin-top: auto;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--card-border);
 }
 
-/* Helper for edit mode layout */
 .note-edit-actions {
   display: flex;
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
 }
 
-/* Buttons */
+/* Buttons - "Interactive Elements" */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   font-size: 0.875rem;
   font-weight: 500;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   border: none;
-  transition: background-color 0.2s;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), #EA580C);
   color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
 }
 
 .btn-secondary {
-  background-color: #f1f5f9; /* Slate 100 */
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-  background-color: #e2e8f0;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .btn-danger {
-  background-color: #fef2f2; /* Red 50 */
+  background-color: rgba(244, 63, 94, 0.1);
   color: var(--danger-color);
 }
 
 .btn-danger:hover {
-  background-color: #fee2e2;
-  color: var(--danger-hover);
+  background-color: rgba(244, 63, 94, 0.15);
 }
 
+/* Refined Outline Button */
 .btn-outline {
   background-color: transparent;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--card-border);
   color: var(--text-secondary);
 }
 
 .btn-outline:hover {
-  border-color: var(--text-secondary);
+  border-color: var(--text-primary);
   color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Animations - "Fluid Memory" */
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .note-card {
-  animation: fadeIn 0.3s ease-out;
+  animation: floatIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-/* Auth Styles */
+/* Stagger animations for list items would usually require JS index custom properties, 
+   but we'll keep base animation smooth. */
+
+/* Logic for edit mode inputs matching dark theme */
+.note-edit-mode .form-input,
+.note-edit-mode .form-textarea {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Auth Pages */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -266,41 +402,48 @@ body {
 
 .auth-card {
   background: var(--card-bg);
+  backdrop-filter: blur(12px);
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-card);
   width: 100%;
   max-width: 400px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--card-border);
 }
 
 .auth-title {
   text-align: center;
   margin-bottom: var(--spacing-lg);
   color: var(--primary-color);
-  font-size: 1.75rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
 }
 
 .auth-error {
-  background-color: var(--danger-color);
-  color: white;
+  background-color: rgba(244, 63, 94, 0.2);
+  color: #FDA4AF;
   padding: 0.75rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   margin-bottom: var(--spacing-md);
   text-align: center;
   font-size: 0.875rem;
+  border: 1px solid rgba(244, 63, 94, 0.3);
 }
 
 /* Navbar */
 .navbar {
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--card-border);
   padding: var(--spacing-md) 0;
   margin-bottom: var(--spacing-xl);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .nav-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--spacing-md);
   display: flex;
@@ -310,12 +453,282 @@ body {
 
 .nav-logo {
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: var(--primary-color);
   text-decoration: none;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
+}
+/* =========================================
+   Smriti Layout Refinement (Split View & Modals)
+   ========================================= */
+
+/* Main Split Layout - Desktop */
+.main-content-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .main-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modal Overlay - "Focus Mode" */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* Darker overlay */
+  backdrop-filter: blur(8px); /* Blur effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Modal Content - "The Stage" */
+.modal-content {
+  background: var(--card-bg); /* Glassmorphism inherited */
+  backdrop-filter: blur(16px);
+  width: 70%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--primary-color); /* Highlight border */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    padding: var(--spacing-lg);
+  }
+}
+
+/* Modal Animations */
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Modal Inputs tailored for focus */
+.modal-content .form-input {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--card-border);
+  border-radius: 0;
+  padding: 0.5rem 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal-content .form-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: none;
+  background: transparent;
+}
+
+.modal-content .form-textarea {
+  min-height: 400px;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  padding: 0;
+}
+
+.modal-content .form-textarea:focus {
+  box-shadow: none;
+  background: transparent;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--card-border);
+}
+
+/* Scrollbar for Modal */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: var(--card-border);
+  border-radius: 4px;
+}
+
+/* =========================================
+   Smriti Master-Detail Layout
+   ========================================= */
+
+/* App Shell */
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - 80px); /* Adjust based on navbar height */
+  margin-top: var(--spacing-md);
+  gap: var(--spacing-lg);
+}
+
+/* Sidebar "Memory Lane" */
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--card-bg); /* Glass effect from var */
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--card-border);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 80vh; /* Fixed height for scrollability */
+  position: sticky;
+  top: 100px; /* Below navbar */
+}
+
+.sidebar-title {
+  padding: var(--spacing-lg);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: 0;
+}
+
+.sidebar-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: var(--spacing-sm);
+}
+
+.sidebar-empty {
+  padding: var(--spacing-lg);
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Sidebar Items */
+.sidebar-item {
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--card-border);
+}
+
+.sidebar-item.active {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.05);
+}
+
+.sidebar-note-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-item.active .sidebar-note-title {
+  color: var(--primary-color);
+}
+
+.sidebar-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Custom Scrollbar for Sidebar */
+.sidebar-list::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-list::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 3px;
+}
+
+/* Main View "The Canvas" */
+.note-view-container {
+  flex-grow: 1;
+  padding-right: var(--spacing-xl);
+  max-width: 900px;
+}
+
+.empty-selection-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-secondary);
+  text-align: center;
+  opacity: 0.6;
+}
+
+.empty-selection-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-lg);
+  color: var(--card-border);
+}
+
+/* Ensure Note Card takes full width in this view */
+.note-view-container .note-card {
+  width: 100%;
+  border: none;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.note-view-container .note-title {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-lg);
+  font-family: var(--font-display);
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.note-view-container .note-content {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-primary);
 }
