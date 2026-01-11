@@ -1,7 +1,7 @@
 // App.js acts as the core controller of the application. It sets up authentication context, defines public and protected routes, fetches and manages notes, coordinates UI components like Sidebar and Note view, and ensures secure navigation across the app.
 
 import { useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import NoteCreation from "./components/noteCreation";
 import Sidebar from "./components/Sidebar";
@@ -23,6 +23,19 @@ function PrivateRoute({ children }) {
 function Home() {
     const [notes, setNotes] = useState([]);
     const [selectedNote, setSelectedNote] = useState(null);
+    const location = useLocation();
+
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+        const noteIdFromUrl = query.get("noteId");
+
+        if (noteIdFromUrl && notes.length > 0) {
+            const note = notes.find(n => n.id === parseInt(noteIdFromUrl));
+            if (note) {
+                setSelectedNote(note);
+            }
+        }
+    }, [location.search, notes]);
 
     useEffect(() => {
         getNotes().then(data => {

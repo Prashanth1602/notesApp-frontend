@@ -4,15 +4,14 @@ function Archived({ notes, onSelectNote, selectedNoteId }) {
     if (!notes || notes.length === 0) return null;
 
     return (
-        <div className="archived-section" style={{ marginTop: '2rem', borderTop: '1px solid var(--card-border)', paddingTop: '1rem' }}>
-            <h3 className="sidebar-title" style={{ fontSize: '1.2rem', opacity: 0.8 }}>Archived</h3>
+        <div className="archived-section">
+            <h3 className="sidebar-title archived-title">Archived</h3>
             <div className="archived-list">
                 {notes.map(note => (
                     <div
                         key={note.id}
-                        className={`sidebar-item archived ${selectedNoteId === note.id ? 'active' : ''}`}
+                        className={`sidebar-item archived sidebar-item-archived ${selectedNoteId === note.id ? 'active' : ''}`}
                         onClick={() => onSelectNote(note)}
-                        style={{ opacity: 0.7 }}
                     >
                         <h3 className="sidebar-note-title">{note.title || "Untitled Memory"}</h3>
                         <span className="sidebar-date">

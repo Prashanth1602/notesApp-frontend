@@ -34,7 +34,7 @@ function Note({ note, onDelete, onUpdate, onToggleArchive }) {
             {isEditing && (
                 <div className="modal-overlay" onClick={() => setIsEditing(false)}>
                     <div className="modal-content" onClick={e => e.stopPropagation()}>
-                        <h2 style={{ color: 'var(--primary-color)', marginBottom: '1rem', fontFamily: 'var(--font-display)' }}>Edit Memory</h2>
+                        <h2 className="modal-title">Edit Memory</h2>
                         <input
                             type="text"
                             className="form-input"

@@ -5,6 +5,7 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import Search from "./Search";
 
 function Navbar() {
     const { user, logout } = useContext(AuthContext);
@@ -19,18 +20,21 @@ function Navbar() {
         <nav className="navbar">
             <div className="nav-container">
                 <Link to="/" className="nav-logo">Smriti</Link>
+
+                {user && <Search />}
+
                 <div className="nav-links">
                     {user ? (
                         <>
-                            <span style={{ marginRight: '1rem', color: 'var(--text-secondary)' }}>
-                                Welcome, <Link to="/profile" style={{ fontWeight: 'bold', color: 'var(--text-primary)', textDecoration: 'none' }}>{user.username}</Link>
+                            <span className="nav-welcome">
+                                Welcome, <Link to="/profile" className="nav-user-link">{user.username}</Link>
                             </span>
-                            <Link to="/create" className="btn btn-primary" style={{ marginRight: '1rem' }}>Record Memory</Link>
+                            <Link to="/create" className="btn btn-primary mr-1">Record Memory</Link>
                             <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
                         </>
                     ) : (
                         <>
-                            <Link to="/login" className="btn btn-outline" style={{ marginRight: '0.5rem' }}>Login</Link>
+                            <Link to="/login" className="btn btn-outline mr-05">Login</Link>
                             <Link to="/register" className="btn btn-primary">Register</Link>
                         </>
                     )}

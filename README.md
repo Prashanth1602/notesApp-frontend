@@ -8,6 +8,7 @@
 *   **Create Memories**: Easily write down new notes and ideas.
 *   **Organize**: View your notes in a convenient sidebar list.
 *   **Edit & Update**: Modify your existing notes whenever you want.
+*   **Search**: Instantly find specific memories with the integrated search bar.
 *   **Archive**: Keep your workspace organised by archiving notes, without deleting them.
 *   **Delete**: Permanently remove notes you no longer need.
 *   **User Profile**: Manage your user profile.
