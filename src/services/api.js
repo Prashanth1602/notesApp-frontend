@@ -1,6 +1,6 @@
 // api.js file acts as the centralized API service layer for the application. It manages authentication headers, handles token-based authorization, processes backend responses uniformly, enforces session security, and exposes clean functions for user authentication, profile management, and full CRUD operations on notes (including archiving).
 
-const API_URL = "https://notesapp-gqeu.onrender.com";
+const API_URL = "http://localhost:8000";
 
 const getHeaders = () => {
     const token = localStorage.getItem("token");
