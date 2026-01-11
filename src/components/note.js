@@ -1,3 +1,7 @@
+
+
+//Note component displays a single note in a card layout, allowing users to interact with it. It takes a note object, functions to handle note deletion, updates, and archiving, and renders the note's title, content, and actions. By using React's state management and onClick events, it ensures smooth interaction and visual feedback for active notes.
+
 import { useState } from "react";
 
 function Note({ note, onDelete, onUpdate, onToggleArchive }) {

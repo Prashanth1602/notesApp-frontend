@@ -1,3 +1,6 @@
+//UserProfile component provides a secure and user-friendly account management interface. It synchronizes global authentication data into local form state, allows authenticated users to update their profile information, safely handles account deletion with confirmation, refreshes global auth state after updates, and manages navigation and UI feedback. By cleanly separating local form state, global auth state, and backend interactions
+
+
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";

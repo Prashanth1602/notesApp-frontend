@@ -1,9 +1,11 @@
+// App.js acts as the core controller of the application. It sets up authentication context, defines public and protected routes, fetches and manages notes, coordinates UI components like Sidebar and Note view, and ensures secure navigation across the app.
+
 import { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import NoteCreation from "./components/noteCreation";
 import Sidebar from "./components/Sidebar";
-import Note from "./components/note"; // Directly import Note component
+import Note from "./components/note";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";

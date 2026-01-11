@@ -1,3 +1,5 @@
+// AuthContext.js file implements a global authentication system using React Context. It manages user identity, persists login sessions via tokens, restores authentication on app load, exposes login and logout actions, and prevents the app from rendering until authentication status is known. By centralizing auth logic and decoupling it from UI components and API details, it ensures secure, scalable, and predictable authentication behavior across the entire application.
+
 import { createContext, useState, useEffect } from "react";
 import { login as loginService, logout as logoutService, getCurrentUser } from "../services/api";
 

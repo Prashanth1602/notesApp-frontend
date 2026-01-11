@@ -1,3 +1,5 @@
+//Login component provides a user-friendly login interface. It uses React hooks to manage form state, handles form submission securely, and provides feedback to users. By using React Router for navigation and custom API functions for authentication, it ensures a smooth login process while maintaining security and user experience.
+
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";

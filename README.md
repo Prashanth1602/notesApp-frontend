@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# Smriti - The Digital Essence of Memory
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Smriti** is a beautiful and secure digital note-taking application designed to help you capture and organize your thoughts, memories, and ideas. This is the **Frontend** of the application, built with **React**, offering a smooth and responsive user experience.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+*   **Secure Authentication**: User registration and login to keep your notes private.
+*   **Create Memories**: Easily write down new notes and ideas.
+*   **Organize**: View your notes in a convenient sidebar list.
+*   **Edit & Update**: Modify your existing notes whenever you want.
+*   **Archive**: Keep your workspace organised by archiving notes with a tag, without deleting them.
+*   **Delete**: Permanently remove notes you no longer need.
+*   **User Profile**: Manage your user profile.
+*   **Responsive Design**: Works on desktop and mobile screens.
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project is built using modern web technologies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+*   **React**: For building the user interface.
+*   **React Router**: For seamless navigation between pages.
+*   **Context API**: For managing authentication state across the app.
+*   **CSS**: Custom styling for a unique "Butterfly" aesthetic.
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Follow these simple steps to run the application on your local machine.
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Make sure you have **Node.js** installed on your computer. You can download it from [nodejs.org](https://nodejs.org/).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1.  **Clone the repository** (or download the files):
+    ```bash
+    git clone <repository-url>
+    cd notesApp-frontend
+    ```
 
-### `npm run eject`
+2.  **Install dependencies**:
+    Runs the following command to install all the necessary libraries:
+    ```bash
+    npm install
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Running the App
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1.  **Start the development server**:
+    ```bash
+    npm start
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2.  **Open in Browser**:
+    The app should run automatically at [http://localhost:3000](http://localhost:3000).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Build for Production
 
-## Learn More
+If you want to create an optimized build for deployment:
+```bash
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📂 Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Here is a quick look at the main folders:
 
-### Code Splitting
+*   **`src/components`**: Contains all the visual parts like the Sidebar, Note view, Login/Register forms, etc.
+*   **`src/context`**: Handles the logic for checking if a user is logged in (`AuthContext.js`).
+*   **`src/services`**: Contains `api.js` which handles communication with the backend server.
+*   **`src/App.js`**: The main entry point where routes and navigation are set up.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🔗 Backend Connection
 
-### Analyzing the Bundle Size
+Please note that this is the **Frontend** only. It is designed to connect to a backend API server.
+Ensure your backend server is running and the API endpoints in `src/services/api.js` are correctly pointing to it (usually `http://localhost:8000` or similar).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*Enjoy capturing your digital essence with Smriti!*

@@ -1,3 +1,7 @@
+
+
+//Navbar component provides a user-friendly navigation interface. It uses React hooks to manage authentication state, handles navigation securely, and provides feedback to users. By using React Router for navigation and custom API functions for authentication, it ensures a smooth navigation process while maintaining security and user experience.
+
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";

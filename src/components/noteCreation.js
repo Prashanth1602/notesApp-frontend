@@ -1,3 +1,5 @@
+//NoteCreation component provides a user-friendly interface for creating new notes. It uses React hooks to manage form state, handles form submission securely, and provides feedback to users. By using React Router for navigation and custom API functions for note creation, it ensures a smooth note creation process while maintaining security and user experience.
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

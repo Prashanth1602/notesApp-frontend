@@ -1,3 +1,5 @@
+//Register component provides a user-friendly registration interface. It uses React hooks to manage form state, handles form submission securely, and provides feedback to users. By using React Router for navigation and custom API functions for registration, it ensures a smooth registration process while maintaining security and user experience.
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../services/api";
