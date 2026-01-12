@@ -103,7 +103,7 @@ function Home() {
                         />
                     ) : (
                         <div className="empty-selection-state">
-                            <div className="empty-selection-icon">🦋</div>
+                            <div className="empty-selection-icon">✨</div>
                             <h2>Select a memory to recall</h2>
                             <p>Or record a new one from the navigation bar.</p>
                         </div>

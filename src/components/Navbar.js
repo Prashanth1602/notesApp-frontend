@@ -19,7 +19,7 @@ function Navbar() {
     return (
         <nav className="navbar">
             <div className="nav-container">
-                <Link to="/" className="nav-logo">Smriti</Link>
+                <Link to="/" className="nav-logo">⏳</Link>
 
                 {user && <Search />}
 

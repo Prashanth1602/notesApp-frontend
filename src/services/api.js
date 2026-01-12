@@ -1,6 +1,6 @@
 // api.js file acts as the centralized API service layer for the application. It manages authentication headers, handles token-based authorization, processes backend responses uniformly, enforces session security, and exposes clean functions for user authentication, profile management, and full CRUD operations on notes (including archiving).
 
-const API_URL = process.env.REACT_APP_API_URL || "https://notesapp-gqeu.onrender.com";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const getHeaders = () => {
     const token = localStorage.getItem("token");
@@ -23,7 +23,7 @@ const handleResponse = async (response) => {
 
     try {
         const errorData = await response.json();
-        const errorMessage = errorData.detail || errorData.message || "An unexpected error occurred";
+        const errorMessage = errorData.detail || "An unexpected error occurred";
         return Promise.reject(errorMessage);
     } catch (e) {
         return Promise.reject(response.statusText || "An unexpected error occurred");
