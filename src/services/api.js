@@ -47,7 +47,7 @@ const processResponse = async (response) => {
 
 const refreshAccessToken = async () => {
     try {
-        const response = await fetch(`${API_URL}/users/refresh`, {
+        const response = await fetch(`${API_URL}/auth/refresh`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -105,7 +105,7 @@ const fetchWithAuth = async (endpoint, options = {}) => {
 // --- Auth Endpoints ---
 
 export const login = async (email, password) => {
-    const response = await fetch(`${API_URL}/users/login`, {
+    const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -124,7 +124,7 @@ export const login = async (email, password) => {
 };
 
 export const register = (username, email, password) => {
-    return fetch(`${API_URL}/users/register`, {
+    return fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
@@ -133,7 +133,7 @@ export const register = (username, email, password) => {
 
 export const logout = async () => {
     try {
-        await fetchWithAuth(`/users/logout`, {
+        await fetchWithAuth(`/auth/logout`, {
             method: "POST",
         });
     } finally {
