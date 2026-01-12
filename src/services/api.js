@@ -1,41 +1,126 @@
-// api.js file acts as the centralized API service layer for the application. It manages authentication headers, handles token-based authorization, processes backend responses uniformly, enforces session security, and exposes clean functions for user authentication, profile management, and full CRUD operations on notes (including archiving).
+// api.js acts as the centralized API service layer with smart token management.
+// It stores the access token in memory (not localStorage) and handles automatic token refreshing using HttpOnly cookies.
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const getHeaders = () => {
-    const token = localStorage.getItem("token");
-    return {
-        "Content-Type": "application/json",
-        ...(token && { "Authorization": `Bearer ${token}` }),
-    };
+let accessToken = null;
+
+export const setAccessToken = (token) => {
+    accessToken = token;
 };
 
-const handleResponse = async (response) => {
+export const getAccessToken = () => accessToken;
+
+const getHeaders = (options = {}) => {
+    const headers = {
+        "Content-Type": "application/json",
+        ...options.headers,
+    };
+
+    if (accessToken) {
+        headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    return headers;
+};
+
+const processResponse = async (response) => {
     if (response.ok) {
-        return response.json();
+        if (response.status === 204) return null;
+        try {
+            return await response.json();
+        } catch (e) {
+            return null;
+        }
     }
 
-    if (response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
-        return Promise.reject("Session expired. Please login again.");
-    }
-
+    let errorMessage = "An unexpected error occurred";
     try {
         const errorData = await response.json();
-        const errorMessage = errorData.detail || "An unexpected error occurred";
-        return Promise.reject(errorMessage);
+        errorMessage = errorData.detail || errorData.message || errorMessage;
     } catch (e) {
-        return Promise.reject(response.statusText || "An unexpected error occurred");
+        errorMessage = response.statusText || errorMessage;
+    }
+
+    return Promise.reject({ status: response.status, message: errorMessage });
+};
+
+const refreshAccessToken = async () => {
+    try {
+        const response = await fetch(`${API_URL}/users/refresh`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setAccessToken(data.access_token);
+            return data.access_token;
+        } else {
+            throw new Error("Refresh failed");
+        }
+    } catch (error) {
+        setAccessToken(null);
+        throw error;
     }
 };
 
-export const login = (email, password) => {
-    return fetch(`${API_URL}/users/login`, {
+const fetchWithAuth = async (endpoint, options = {}) => {
+    const url = `${API_URL}${endpoint}`;
+    const headers = getHeaders(options);
+
+    const config = {
+        ...options,
+        headers,
+        credentials: "include",
+    };
+
+    try {
+        const response = await fetch(url, config);
+
+        if (response.status === 401) {
+            try {
+                const newToken = await refreshAccessToken();
+                const retryConfig = {
+                    ...config,
+                    headers: {
+                        ...config.headers,
+                        Authorization: `Bearer ${newToken}`,
+                    },
+                };
+                const retryResponse = await fetch(url, retryConfig);
+                return processResponse(retryResponse);
+            } catch (refreshError) {
+                return Promise.reject({ status: 401, message: "Session expired" });
+            }
+        }
+
+        return processResponse(response);
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+// --- Auth Endpoints ---
+
+export const login = async (email, password) => {
+    const response = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
-    }).then(handleResponse);
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        if (data.access_token) {
+            setAccessToken(data.access_token);
+        }
+        return data;
+    } else {
+        return processResponse(response);
+    }
 };
 
 export const register = (username, email, password) => {
@@ -43,108 +128,78 @@ export const register = (username, email, password) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
-    }).then(handleResponse);
+    }).then(processResponse);
 };
 
-export const logout = () => {
-    return fetch(`${API_URL}/users/logout`, {
-        method: "POST",
-        headers: getHeaders(),
-    }).then(() => {
-        localStorage.removeItem("token");
-    });
+export const logout = async () => {
+    try {
+        await fetchWithAuth(`/users/logout`, {
+            method: "POST",
+        });
+    } finally {
+        setAccessToken(null);
+    }
 };
 
 export const getCurrentUser = () => {
-    return fetch(`${API_URL}/users/me`, {
-        headers: getHeaders(),
-    }).then(handleResponse);
+    return fetchWithAuth(`/users/me`);
 };
 
 export const updateUser = (username, email) => {
-    return fetch(`${API_URL}/users/me`, {
+    return fetchWithAuth(`/users/me`, {
         method: "PUT",
-        headers: getHeaders(),
         body: JSON.stringify({ username, email }),
-    }).then(handleResponse);
+    });
 };
 
 export const deleteUser = () => {
-    return fetch(`${API_URL}/users/me`, {
+    return fetchWithAuth(`/users/me`, {
         method: "DELETE",
-        headers: getHeaders(),
-    }).then(handleResponse);
+    });
 };
 
+// --- Note Endpoints ---
+
 export const getNotes = () => {
-    return fetch(`${API_URL}/notes`, {
-        headers: getHeaders(),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    return fetchWithAuth(`/notes`);
 };
 
 export const createNote = (note) => {
-    return fetch(`${API_URL}/notes`, {
+    return fetchWithAuth(`/notes`, {
         method: "POST",
-        headers: getHeaders(),
         body: JSON.stringify(note),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    });
 };
 
 export const deleteNote = (id) => {
-    return fetch(`${API_URL}/notes/${id}`, {
+    return fetchWithAuth(`/notes/${id}`, {
         method: "DELETE",
-        headers: getHeaders(),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    });
 };
 
 export const updateNote = (id, note) => {
-    return fetch(`${API_URL}/notes/${id}`, {
+    return fetchWithAuth(`/notes/${id}`, {
         method: "PUT",
-        headers: getHeaders(),
         body: JSON.stringify(note),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    });
 };
 
 export const getNoteById = (id) => {
-    return fetch(`${API_URL}/notes/${id}`, {
-        headers: getHeaders(),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    return fetchWithAuth(`/notes/${id}`);
 };
 
 export const archiveNote = (id) => {
-    return fetch(`${API_URL}/notes/${id}/archive`, {
+    return fetchWithAuth(`/notes/${id}/archive`, {
         method: "PUT",
-        headers: getHeaders(),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    });
 };
 
 export const unarchiveNote = (id) => {
-    return fetch(`${API_URL}/notes/${id}/unarchive`, {
+    return fetchWithAuth(`/notes/${id}/unarchive`, {
         method: "PUT",
-        headers: getHeaders(),
-    })
-        .then(handleResponse)
-        .catch(error => console.error(error));
+    });
 };
 
 export const searchNotes = (query) => {
-    return fetch(`${API_URL}/search?query=${query}`, {
-        headers: getHeaders(),
-    })
-        .then(handleResponse)
-        .catch(error => {
-            throw error;
-        });
+    return fetchWithAuth(`/search?query=${query}`);
 };
