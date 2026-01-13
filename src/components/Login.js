@@ -3,6 +3,8 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import LoadingScreen from "./LoadingScreen";
+import useDelayedLoading from "../hooks/useDelayedLoading";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -11,19 +13,25 @@ function Login() {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const { isLoading, withDelay } = useDelayedLoading();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
-        try {
-            await login(email, password);
-            navigate("/");
-        } catch (err) {
-            setError(typeof err === 'string' ? err : "Login failed. Please check your credentials.");
-        }
+
+        withDelay(async () => {
+            try {
+                await login(email, password);
+                navigate("/");
+            } catch (err) {
+                setError(typeof err === 'string' ? err : "Login failed. Please check your credentials.");
+            }
+        });
     };
 
     return (
         <div className="auth-container">
+            {isLoading && <LoadingScreen />}
             <div className="auth-card">
                 <h2 className="auth-title">Login</h2>
                 {error && <div className="auth-error">{error}</div>}

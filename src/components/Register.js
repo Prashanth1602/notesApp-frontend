@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../services/api";
+import LoadingScreen from "./LoadingScreen";
+import useDelayedLoading from "../hooks/useDelayedLoading";
 
 function Register() {
     const [username, setUsername] = useState("");
@@ -10,20 +12,25 @@ function Register() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { isLoading, withDelay } = useDelayedLoading();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
-        try {
-            await register(username, email, password);
-            navigate("/login");
-        } catch (err) {
-            setError(typeof err === 'string' ? err : "Registration failed. Try a different username or email.");
-        }
+
+        withDelay(async () => {
+            try {
+                await register(username, email, password);
+                navigate("/login");
+            } catch (err) {
+                setError(typeof err === 'string' ? err : "Registration failed. Try a different username or email.");
+            }
+        });
     };
 
     return (
         <div className="auth-container">
+            {isLoading && <LoadingScreen />}
             <div className="auth-card">
                 <h2 className="auth-title">Register</h2>
                 {error && <div className="auth-error">{error}</div>}

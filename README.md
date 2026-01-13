@@ -35,6 +35,11 @@ The application follows security best practices for token management:
 
 *   **Debounced Search**: The search functionality utilizes a custom `useDebounce` hook to optimize performance. Instead of firing an API request on every keystroke, the application watches for input changes and only triggers the search request after the user has stopped typing for **500ms**. This ensures a responsive UI and significantly reduces unnecessary network traffic.
 
+## Improved User Experience
+
+*   **Smart Loading Screen**: A detailed, glassmorphism-styled loading overlay that displays random poetic phrases to engage the user during wait times.
+*   **Adaptive Loading Logic**: Utilizes a custom `useDelayedLoading` hook to prevent "loading spinners" from flashing on fast connections. The loading screen only appears if an operation (like Login, Register, or Profile Update) takes longer than **2 seconds**, ensuring the app feels instant whenever possible.
+
 ## Getting Started
 
 Follow these simple steps to run the application on your local machine.

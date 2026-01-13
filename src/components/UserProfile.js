@@ -5,6 +5,8 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { updateUser, deleteUser } from "../services/api";
+import LoadingScreen from "./LoadingScreen";
+import useDelayedLoading from "../hooks/useDelayedLoading";
 
 function UserProfile() {
     const { user, logout, refreshUser } = useContext(AuthContext);
@@ -21,20 +23,25 @@ function UserProfile() {
         }
     }, [user]);
 
+    const { isLoading, withDelay } = useDelayedLoading();
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         setMessage(null);
         setError(null);
-        try {
-            await updateUser(username, email);
-            await refreshUser();
-            setMessage("Profile updated successfully!");
-            setTimeout(() => {
-                navigate("/");
-            }, 1000);
-        } catch (err) {
-            setError(typeof err === 'string' ? err : "Failed to update profile.");
-        }
+
+        withDelay(async () => {
+            try {
+                await updateUser(username, email);
+                await refreshUser();
+                setMessage("Profile updated successfully!");
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
+            } catch (err) {
+                setError(typeof err === 'string' ? err : "Failed to update profile.");
+            }
+        });
     };
 
     const handleDelete = async () => {
@@ -55,6 +62,7 @@ function UserProfile() {
 
     return (
         <div className="auth-container">
+            {isLoading && <LoadingScreen />}
             <div className="auth-card">
                 <h2 className="auth-title">My Profile</h2>
                 {user && user.updated_at && (
