@@ -23,13 +23,17 @@ This project is built using modern web technologies:
 *   **Context API**: For managing authentication state across the app.
 *   **CSS**: Custom styling for a unique "Butterfly" aesthetic.
 
-## 🔐 Security & Authentication
+## Security & Authentication
 
 The application follows security best practices for token management:
 
 *   **Access Tokens in Memory**: Access tokens are stored in a JavaScript variable (in-memory) rather than `localStorage`. This significantly reduces the risk of XSS attacks stealing the token.
 *   **HttpOnly Cookies for Refresh Tokens**: The long-lived refresh token is stored in an `HttpOnly` cookie, which cannot be accessed by client-side JavaScript.
 *   **Automatic Token Refresh**: The API service (`src/services/api.js`) automatically intercepts `401 Unauthorized` responses. It uses the refresh token to obtain a new access token and retries the failed request, providing a seamless user experience.
+
+## Optimizations
+
+*   **Debounced Search**: The search functionality utilizes a custom `useDebounce` hook to optimize performance. Instead of firing an API request on every keystroke, the application watches for input changes and only triggers the search request after the user has stopped typing for **500ms**. This ensures a responsive UI and significantly reduces unnecessary network traffic.
 
 ## Getting Started
 

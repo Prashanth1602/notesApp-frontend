@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchNotes } from "../services/api";
+import { useDebounce } from "../hooks/useDebounce";
 
 function Search() {
     const [query, setQuery] = useState("");
@@ -9,27 +10,31 @@ function Search() {
     const [error, setError] = useState(null);
     const [showResults, setShowResults] = useState(false);
     const navigate = useNavigate();
+    const debouncedSearchTerm = useDebounce(query, 500);
 
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        if (!query.trim()) return;
+    useEffect(() => {
+        if (debouncedSearchTerm) {
+            setLoading(true);
+            setError(null);
+            setShowResults(true);
 
-        setLoading(true);
-        setError(null);
-        setShowResults(true);
-        try {
-            const data = await searchNotes(query);
-
-            let normalizedResults = [];
-            data && Array.isArray(data.results) && (normalizedResults = data.results);
-            setResults(normalizedResults);
-        } catch (err) {
-            setError(err.message);
+            searchNotes(debouncedSearchTerm)
+                .then((data) => {
+                    let normalizedResults = [];
+                    normalizedResults = data.results;
+                    setResults(normalizedResults);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setError(error.message);
+                    setResults([]);
+                    setLoading(false);
+                });
+        } else {
             setResults([]);
-        } finally {
-            setLoading(false);
+            setShowResults(false);
         }
-    };
+    }, [debouncedSearchTerm]);
 
     const handleSelectNote = (noteId) => {
         navigate(`/?noteId=${noteId}`);
@@ -40,7 +45,7 @@ function Search() {
 
     return (
         <div className="search-container">
-            <form onSubmit={handleSearch} className="search-form">
+            <form onSubmit={(e) => e.preventDefault()} className="search-form">
                 <input
                     type="text"
                     className="search-input"
@@ -60,7 +65,7 @@ function Search() {
                 <div className="search-dropdown">
                     {loading && <div className="search-message">Searching...</div>}
                     {error && <div className="search-message error">{error}</div>}
-                    {!loading && !error && results.length === 0 && (
+                    {!loading && !error && results.length === 0 && query && (
                         <div className="search-message">No memories found.</div>
                     )}
 
