@@ -90,10 +90,17 @@ const fetchWithAuth = async (endpoint, options = {}) => {
                     },
                 };
                 const retryResponse = await fetch(url, retryConfig);
+                if (options.responseType === 'blob' && retryResponse.ok) {
+                    return retryResponse.blob();
+                }
                 return processResponse(retryResponse);
             } catch (refreshError) {
                 return Promise.reject({ status: 401, message: "Session expired" });
             }
+        }
+
+        if (options.responseType === 'blob' && response.ok) {
+            return response.blob();
         }
 
         return processResponse(response);
@@ -202,4 +209,11 @@ export const unarchiveNote = (id) => {
 
 export const searchNotes = (query) => {
     return fetchWithAuth(`/search?query=${query}`);
+};
+
+export const downloadNotes = () => {
+    return fetchWithAuth(`/download`, {
+        method: "GET",
+        responseType: "blob",
+    });
 };

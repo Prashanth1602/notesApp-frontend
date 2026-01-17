@@ -1,6 +1,7 @@
 //Sidebar component displays a list of notes in a sidebar, allowing users to navigate between them. It takes an array of notes, a function to handle note selection, and the ID of the currently selected note. By using React's key prop and onClick events, it ensures smooth navigation and visual feedback for active notes.
 
 import Archived from "./Archived";
+import Download from "./Download";
 
 function Sidebar({ notes, onSelectNote, selectedNoteId }) {
     const activeNotes = notes.filter(note => !note.is_archived);
@@ -33,6 +34,10 @@ function Sidebar({ notes, onSelectNote, selectedNoteId }) {
                         />
                     </>
                 )}
+            </div>
+
+            <div className="sidebar-footer">
+                <Download notes={notes} />
             </div>
         </aside>
     );

@@ -924,3 +924,54 @@ body {
   margin-bottom: 1rem;
   font-family: var(--font-display);
 }
+
+/* Download Section - "Preserving Memories" */
+.download-section {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--card-border);
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.download-description {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  font-size: 1rem;
+}
+
+.download-btn {
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Sidebar Footer (Download) */
+.sidebar-footer {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--card-border);
+    margin-top: auto; /* Push to bottom */
+}
+
+.sidebar-download-btn {
+    width: 100%;
+    font-size: 0.9rem;
+    justify-content: center;
+    border-style: dashed;
+    opacity: 0.7;
+}
+
+.sidebar-download-btn:hover {
+    opacity: 1;
+    border-style: solid;
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
