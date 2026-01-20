@@ -6,6 +6,7 @@
 
 *   **Secure Authentication**: User registration and login to keep your notes private.
 *   **Create Memories**: Easily write down new notes and ideas.
+*   **Download Memories**: Download all your memories as a beautifully styled HTML file for offline viewing.
 *   **Organize**: View your notes in a convenient sidebar list.
 *   **Edit & Update**: Modify your existing notes whenever you want.
 *   **Search**: Instantly find specific memories with the integrated search bar.
@@ -30,6 +31,7 @@ The application follows security best practices for token management:
 *   **Access Tokens in Memory**: Access tokens are stored in a JavaScript variable (in-memory) rather than `localStorage`. This significantly reduces the risk of XSS attacks stealing the token.
 *   **HttpOnly Cookies for Refresh Tokens**: The long-lived refresh token is stored in an `HttpOnly` cookie, which cannot be accessed by client-side JavaScript.
 *   **Automatic Token Refresh**: The API service (`src/services/api.js`) automatically intercepts `401 Unauthorized` responses. It uses the refresh token to obtain a new access token and retries the failed request, providing a seamless user experience.
+*   **Secure File Downloads**: File downloads are handled securely via the API. The token refresh mechanism is integrated into the download flow, ensuring that even if a session expires while initiating a download, the request is transparently retried with a fresh token without interrupting the user.
 
 ## Optimizations
 

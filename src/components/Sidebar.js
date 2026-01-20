@@ -37,7 +37,7 @@ function Sidebar({ notes, onSelectNote, selectedNoteId }) {
             </div>
 
             <div className="sidebar-footer">
-                <Download notes={notes} />
+                <Download />
             </div>
         </aside>
     );
