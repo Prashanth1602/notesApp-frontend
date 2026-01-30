@@ -1,100 +1,54 @@
-# Smriti - The Digital Essence of Memory
+# Smriti Frontend — Client for Notes Management API
 
-**Smriti** is a beautiful and secure digital note-taking application designed to help you capture and organize your thoughts, memories, and ideas. This is the **Frontend** of the application, built with **React**, offering a smooth and responsive user experience.
+This repository contains a minimal React-based client used to interact with the Smriti backend API.
 
-## Features
-
-*   **Secure Authentication**: User registration and login to keep your notes private.
-*   **Create Memories**: Easily write down new notes and ideas.
-*   **Download Memories**: Download all your memories as a beautifully styled HTML file for offline viewing.
-*   **Organize**: View your notes in a convenient sidebar list.
-*   **Edit & Update**: Modify your existing notes whenever you want.
-*   **Search**: Instantly find specific memories with the integrated search bar.
-*   **Archive**: Keep your workspace organised by archiving notes, without deleting them.
-*   **Delete**: Permanently remove notes you no longer need.
-*   **User Profile**: Manage your user profile.
-*   **Responsive Design**: Works on desktop and mobile screens.
-
-## Technology Stack
-
-This project is built using modern web technologies:
-
-*   **React**: For building the user interface.
-*   **React Router**: For seamless navigation between pages.
-*   **Context API**: For managing authentication state across the app.
-*   **CSS**: Custom styling for a unique "Butterfly" aesthetic.
-
-## Security & Authentication
-
-The application follows security best practices for token management:
-
-*   **Access Tokens in Memory**: Access tokens are stored in a JavaScript variable (in-memory) rather than `localStorage`. This significantly reduces the risk of XSS attacks stealing the token.
-*   **HttpOnly Cookies for Refresh Tokens**: The long-lived refresh token is stored in an `HttpOnly` cookie, which cannot be accessed by client-side JavaScript.
-*   **Automatic Token Refresh**: The API service (`src/services/api.js`) automatically intercepts `401 Unauthorized` responses. It uses the refresh token to obtain a new access token and retries the failed request, providing a seamless user experience.
-*   **Secure File Downloads**: File downloads are handled securely via the API. The token refresh mechanism is integrated into the download flow, ensuring that even if a session expires while initiating a download, the request is transparently retried with a fresh token without interrupting the user.
-
-## Optimizations
-
-*   **Debounced Search**: The search functionality utilizes a custom `useDebounce` hook to optimize performance. Instead of firing an API request on every keystroke, the application watches for input changes and only triggers the search request after the user has stopped typing for **500ms**. This ensures a responsive UI and significantly reduces unnecessary network traffic.
-
-## Improved User Experience
-
-*   **Smart Loading Screen**: A detailed, glassmorphism-styled loading overlay that displays random poetic phrases to engage the user during wait times.
-*   **Adaptive Loading Logic**: Utilizes a custom `useDelayedLoading` hook to prevent "loading spinners" from flashing on fast connections. The loading screen only appears if an operation (like Login, Register, or Profile Update) takes longer than **2 seconds**, ensuring the app feels instant whenever possible.
-
-## Getting Started
-
-Follow these simple steps to run the application on your local machine.
-
-### Prerequisites
-
-Make sure you have **Node.js** installed on your computer. You can download it from [nodejs.org](https://nodejs.org/).
-
-### Installation
-
-1.  **Clone the repository** (or download the files):
-    ```bash
-    git clone <repository-url>
-    cd notesApp-frontend
-    ```
-
-2.  **Install dependencies**:
-    Runs the following command to install all the necessary libraries:
-    ```bash
-    npm install
-    ```
-
-### Running the App
-
-1.  **Start the development server**:
-    ```bash
-    npm start
-    ```
-
-2.  **Open in Browser**:
-    The app should run automatically at [http://localhost:3000](http://localhost:3000).
-
-### Build for Production
-
-If you want to create an optimized build for deployment:
-```bash
-npm run build
-```
-
-## 📂 Project Structure
-
-Here is a quick look at the main folders:
-
-*   **`src/components`**: Contains all the visual parts like the Sidebar, Note view, Login/Register forms, etc.
-*   **`src/context`**: Handles the logic for checking if a user is logged in (`AuthContext.js`).
-*   **`src/services`**: Contains `api.js` which handles communication with the backend server.
-*   **`src/App.js`**: The main entry point where routes and navigation are set up.
-
-## 🔗 Backend Connection
-
-Please note that this is the **Frontend** only. It is designed to connect to a backend API server.
-Ensure your backend server is running and the API endpoints in `src/services/api.js` are correctly pointing to it (usually `http://localhost:8000` or similar).
+The frontend exists to exercise backend authentication, session handling, search, and data lifecycle workflows.  
+It is not intended to function as a standalone product.
 
 ---
 
-*Enjoy capturing your digital essence with Smriti!*
+## Purpose
+
+- Validate backend authentication and token lifecycle
+- Exercise note CRUD, archive, search, and export flows
+- Simulate real client behavior against the API
+
+All security and authorization decisions are enforced by the backend.
+
+---
+
+## Client Responsibilities
+
+### Token Handling (Supporting Backend Design)
+- Access tokens are stored in memory only
+- Refresh tokens are managed via HttpOnly cookies (set by the backend)
+- Automatic token refresh on `401 Unauthorized` responses
+- Failed requests are retried after successful refresh
+
+This follows the backend’s security model and does not introduce independent auth logic.
+
+---
+
+### API Interaction
+- Centralized API service layer
+- Automatic retry logic for expired access tokens
+- Explicit handling of authorization failures
+
+---
+
+### Performance Considerations
+- Debounced search requests to reduce backend load
+- Client-side request throttling during rapid input changes
+- Avoids unnecessary re-renders during API activity
+
+---
+
+## Technology Stack
+
+- React
+- React Router
+- Context API
+- Plain CSS (no UI framework)
+
+---
+
